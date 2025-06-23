@@ -1,0 +1,15 @@
+.DS_Store
+.vscode
+.idea
+.git
+.gitignore
+node_modules
+vendor
+.pnpm-store
+/.docker
+!/.docker/*/conf
+/.dockerignore
+/docker-compose.yml
+/docker-compose.yaml
+*.md
+dist

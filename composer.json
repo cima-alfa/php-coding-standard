@@ -1,0 +1,40 @@
+{
+    "name": "cima-alfa/php-coding-standard",
+    "description": "Custom PHP CS by Cima Alfa...",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeremy Stepanek",
+            "email": "contact@sjeremy.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.3"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.26"
+    },
+    "autoload": {
+        "psr-4": {
+            "CimaAlfaCSFixers\\": "src/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform": {
+            "php": "8.3.0"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

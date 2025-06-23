@@ -1,0 +1,9 @@
+.DS_Store
+.vscode
+.idea
+vendor
+.pnpm-store
+tmp
+temp
+log
+*.log

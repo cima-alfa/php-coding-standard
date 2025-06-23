@@ -1,0 +1,18 @@
+services:
+    application:
+        container_name: cima-alfa-php-coding-standard
+        build:
+            dockerfile: ./.docker/php-fpm/Dockerfile
+            target: base
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+        volumes:
+            - ./.docker/php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+            - ./bin/.docker/mount:/var/www/html/docker-compose.yml:ro
+            - ./bin/.docker/mount:/var/www/html/bin/app:ro
+            - ./bin/.docker/mount.d:/var/www/html/.docker:ro
+            - ./bin/.docker/mount.d:/var/www/html/bin/.docker:ro
+            - ./:/var/www/html
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
