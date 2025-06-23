@@ -1,6 +1,6 @@
 {
     "name": "cima-alfa/php-coding-standard",
-    "description": "Custom PHP CS by Cima Alfa...",
+    "description": "Custom PHP CS by Cima Alfa... Inspired by Nette Coding Standard and Laravel Pint.",
     "type": "project",
     "license": "MIT",
     "authors": [
