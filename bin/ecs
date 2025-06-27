@@ -1,0 +1,62 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use CimaAlfaCSFixers\Config;
+use CimaAlfaCSFixers\ConfigNeon;
+
+function error(string $message): void
+{
+    fwrite(STDERR, "Error: $message\n");
+
+    exit(1);
+}
+
+function warning(string $message): void
+{
+    fwrite(STDOUT, "Warning: $message\n");
+}
+
+if (
+	!(is_file($file = ($vendorDir = __DIR__ . '/../vendor') . '/autoload.php') && include $file) &&
+	!(is_file($file = ($vendorDir = __DIR__ . '/../../..') . '/autoload.php') && include $file)
+) {
+	error('Install packages using Composer.');
+}
+
+$rootDir = getcwd();
+
+while (!is_file("$rootDir/composer.json") && substr_count($rootDir, DIRECTORY_SEPARATOR) > 1) {
+	$rootDir = dirname($rootDir);
+}
+
+if (!is_file("$rootDir/composer.json")) {
+	$rootDir = getcwd();
+
+	warning("Could not find composer.json, using current directory '$rootDir' as project root.");
+}
+
+$config = "$rootDir/php-cs.neon";
+
+if (!is_file($config)) {
+    error("Add a php-cs.neon config file to the project root ($rootDir).");
+}
+
+$config = ConfigNeon::from($config);
+
+if ($config === null) {
+    error('Could not decode the php-cs.neon config file. Check for NEON validity.');
+}
+
+$presets = implode("\n", Config::getPresetDescriptions());
+
+if (!Config::isValidPreset($config->preset)) {
+    error("Provide a valid preset in the php-cs.neon file.\n\nAvailable presets:\n$presets");
+
+	exit(1);
+}
+
+passthru('CIMA_ALFA_PHP_CODING_STANDARD_PRESET=\'test\' && echo $CIMA_ALFA_PHP_CODING_STANDARD_PRESET');
+
+// var_export($config);
