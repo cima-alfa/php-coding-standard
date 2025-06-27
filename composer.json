@@ -10,11 +10,10 @@
         }
     ],
     "require": {
-        "php": "^8.3"
-    },
-    "require-dev": {
+        "php": "^8.3",
         "friendsofphp/php-cs-fixer": "^3.75",
-        "kubawerlos/php-cs-fixer-custom-fixers": "^3.26"
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.26",
+        "nette/neon": "^3.4"
     },
     "autoload": {
         "psr-4": {
