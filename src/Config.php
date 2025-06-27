@@ -8,6 +8,7 @@ use CimaAlfaCSFixers\Fixer\BracesPositionFixer;
 use CimaAlfaCSFixers\Fixer\ClassAndTraitVisibilityRequiredFixer;
 use CimaAlfaCSFixers\Fixer\MethodArgumentSpaceFixer;
 use CimaAlfaCSFixers\Fixer\StatementIndentationFixer;
+use InvalidArgumentException;
 use PhpCsFixer\Config as PhpCsFixerConfig;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
@@ -15,21 +16,28 @@ use PhpCsFixerCustomFixers\Fixers;
 
 final class Config extends PhpCsFixerConfig
 {
-    private array $defaultRules;
+    public const array Presets = [
+        'default' => 'Based on the Nette Coding standard',
+        'empty' => 'No rules defined by default',
+    ];
 
-    public function __construct()
+    private array $fixerRules;
+
+    public function __construct(?string $name = null)
     {
-        parent::__construct();
+        $name ??= self::getPresets()->default;
 
-        $this->defaultRules = require_once __DIR__ . '/presets/default.php';
+        if (!self::isValidPreset($name)) {
+            throw new InvalidArgumentException("Invalid preset provided.");
+        }
 
-        $this->registerCustomFixers([
-            new BracesPositionFixer,
-            new ClassAndTraitVisibilityRequiredFixer,
-            new MethodArgumentSpaceFixer,
-            new StatementIndentationFixer(),
-        ]);
-        $this->registerCustomFixers(new Fixers);
+        parent::__construct($name);
+        
+        match ($name) {
+            'empty' => $this->setRulesEmpty(),
+            default => $this->setRulesDefault(),
+        };
+        
         $this->setParallelConfig(ParallelConfigFactory::detect());
         $this->setRiskyAllowed(true);
         $this->setUsingCache(false);
@@ -40,6 +48,52 @@ final class Config extends PhpCsFixerConfig
 
     public function setRules(array $rules = []): ConfigInterface
     {
-        return parent::setRules(array_merge($this->defaultRules, $rules));
+        return parent::setRules(array_merge($this->fixerRules, $rules));
+    }
+
+    private function setRulesEmpty(): void
+    {
+        $this->fixerRules = [];
+    }
+
+    private function setRulesDefault(): void
+    {
+        $this->fixerRules = require_once __DIR__ . '/config/presets/default.php';
+
+        $this->registerCustomFixers([
+            new BracesPositionFixer,
+            new ClassAndTraitVisibilityRequiredFixer,
+            new MethodArgumentSpaceFixer,
+            new StatementIndentationFixer(),
+        ]);
+
+        $this->registerCustomFixers(new Fixers);
+    }
+
+    public static function getPresets(): object
+    {
+        $presets = [];
+        
+        foreach (array_keys(self::Presets) as $preset) {
+            $presets[$preset] = $preset;
+        }
+
+        return (object) $presets;
+    }
+
+    public static function getPresetDescriptions(): array
+    {
+        $presets = [];
+
+        foreach (self::Presets as $preset => $description) {
+            $presets[] = "$preset: $description";
+        }
+
+        return $presets;
+    }
+
+    public static function isValidPreset(string $preset): bool
+    {
+        return array_key_exists($preset, self::Presets);
     }
 }
