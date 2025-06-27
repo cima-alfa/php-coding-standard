@@ -19,10 +19,7 @@
     "autoload": {
         "psr-4": {
             "CimaAlfaCSFixers\\": "src/"
-        },
-        "classmap": [
-            "src/"
-        ]
+        }
     },
     "config": {
         "optimize-autoloader": true,
@@ -30,9 +27,6 @@
         "sort-packages": true,
         "platform": {
             "php": "8.3.0"
-        },
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "minimum-stability": "dev",
