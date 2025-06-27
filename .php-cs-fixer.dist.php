@@ -1,12 +1,12 @@
 <?php
 
-use PhpCsFixer\Finder;
+declare(strict_types=1);
+
 use CimaAlfaCSFixers\Config;
+use PhpCsFixer\Finder;
 
 require __DIR__ . '/vendor/autoload.php';
 
-return (new Config)
-    ->setFinder(
-        Finder::create()
-            ->in(__DIR__ . '/examples')
-    );
+$finder = Finder::create()->in(__DIR__ . '/examples');
+
+return (new Config())->setFinder($finder);

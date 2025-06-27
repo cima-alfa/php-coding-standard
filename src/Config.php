@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace CimaAlfaCSFixers;
 
-use PhpCsFixer\ConfigInterface;
-use PhpCsFixerCustomFixers\Fixers;
-use PhpCsFixer\Config as PhpCsFixerConfig;
 use CimaAlfaCSFixers\Fixer\BracesPositionFixer;
-use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
-use CimaAlfaCSFixers\Fixer\StatementIndentationFixer;
-use CimaAlfaCSFixers\Fixer\MethodArgumentSpaceFixer;
 use CimaAlfaCSFixers\Fixer\ClassAndTraitVisibilityRequiredFixer;
+use CimaAlfaCSFixers\Fixer\MethodArgumentSpaceFixer;
+use CimaAlfaCSFixers\Fixer\StatementIndentationFixer;
+use PhpCsFixer\Config as PhpCsFixerConfig;
+use PhpCsFixer\ConfigInterface;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+use PhpCsFixerCustomFixers\Fixers;
 
 final class Config extends PhpCsFixerConfig
 {
@@ -33,7 +33,7 @@ final class Config extends PhpCsFixerConfig
         $this->setParallelConfig(ParallelConfigFactory::detect());
         $this->setRiskyAllowed(true);
         $this->setUsingCache(false);
-        $this->setIndent(str_pad('', 4));
+        $this->setIndent(mb_str_pad('', 4));
         $this->setLineEnding(PHP_EOL);
         $this->setRules();
     }
