@@ -3,26 +3,13 @@
 
 declare(strict_types=1);
 
-use CimaAlfaCSFixers\Config;
-use CimaAlfaCSFixers\ConfigNeon;
-
-function error(string $message): void
-{
-    fwrite(STDERR, "Error: $message\n");
-
-    exit(1);
-}
-
-function warning(string $message): void
-{
-    fwrite(STDOUT, "Warning: $message\n");
-}
+use CimaAlfaCSFixers\Helpers;
 
 if (
 	!(is_file($file = ($vendorDir = __DIR__ . '/../vendor') . '/autoload.php') && include $file) &&
 	!(is_file($file = ($vendorDir = __DIR__ . '/../../..') . '/autoload.php') && include $file)
 ) {
-	error('Install packages using Composer.');
+	Helpers::error('Install packages using Composer.');
 }
 
 $rootDir = getcwd();
@@ -34,29 +21,29 @@ while (!is_file("$rootDir/composer.json") && substr_count($rootDir, DIRECTORY_SE
 if (!is_file("$rootDir/composer.json")) {
 	$rootDir = getcwd();
 
-	warning("Could not find composer.json, using current directory '$rootDir' as project root.");
+	Helpers::warning("Could not find composer.json, using current directory '$rootDir' as project root.");
 }
 
-$config = "$rootDir/php-cs.neon";
 
-if (!is_file($config)) {
-    error("Add a php-cs.neon config file to the project root ($rootDir).");
-}
 
-$config = ConfigNeon::from($config);
+$fixerBin = $vendorDir . '/friendsofphp/php-cs-fixer/php-cs-fixer';
+$configExec = __DIR__ . '/../src/cs/config.php';
+$cmd = 'CIMA_ALFA_PHP_CODING_STANDARD_ROOT=' . escapeshellarg($rootDir) . ' '
+    . PHP_BINARY . ' ' . escapeshellarg($fixerBin)
+    . ' check -v'
+    . ' --config=' . escapeshellarg($configExec);
 
-if ($config === null) {
-    error('Could not decode the php-cs.neon config file. Check for NEON validity.');
-}
+ob_start();
 
-$presets = implode("\n", Config::getPresetDescriptions());
+@passthru(
+    $cmd,
+    $exitCode,
+);
 
-if (!Config::isValidPreset($config->preset)) {
-    error("Provide a valid preset in the php-cs.neon file.\n\nAvailable presets:\n$presets");
+$output = ob_get_clean();
 
-	exit(1);
-}
-
-passthru('CIMA_ALFA_PHP_CODING_STANDARD_PRESET=\'test\' && echo $CIMA_ALFA_PHP_CODING_STANDARD_PRESET');
-
-// var_export($config);
+// if ($exitCode !== 0) {
+//     Helpers::error("Execution failed. Exit code: $exitCode");
+// }
+echo $exitCode;
+echo($output);
