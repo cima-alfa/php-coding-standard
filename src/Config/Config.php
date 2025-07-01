@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers;
+namespace CimaAlfaCSFixers\Config;
 
 use CimaAlfaCSFixers\Fixer\BracesPositionFixer;
 use CimaAlfaCSFixers\Fixer\ClassAndTraitVisibilityRequiredFixer;
@@ -58,7 +58,7 @@ final class Config extends PhpCsFixerConfig
 
     private function setRulesDefault(): void
     {
-        $this->fixerRules = require_once __DIR__ . '/config/presets/default.php';
+        $this->fixerRules = require_once __DIR__ . '/../cs/presets/default.php';
 
         $this->registerCustomFixers([
             new BracesPositionFixer,
