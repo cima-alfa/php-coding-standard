@@ -7,16 +7,18 @@ namespace CimaAlfaCSFixers\Fixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Preg;
 
-use function mb_strtolower;
-use function mb_substr;
-
 abstract class BaseFixer extends AbstractFixer
 {
     final public static function name(): string
     {
-        $name = Preg::replace('/(?<!^)(?=[A-Z])/', '_', mb_substr(static::class, 23, -5));
+        $namespace = __NAMESPACE__;
+        $class = static::class;
 
-        return 'CimaAlfaCSFixers/' . mb_strtolower($name);
+        $prefix = explode('\\', $namespace, 2)[0];
+        $name = trim(Preg::replace('/\\\+/', '_', str_replace($namespace, '', $class)), '_');
+        $name = Preg::replace('/(?<!^)(?=[A-Z])/', '_', $name);
+
+        return "$prefix/" . mb_strtolower(Preg::replace('/_+/', '_', $name));
     }
 
     final public function getName(): string
