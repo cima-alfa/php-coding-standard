@@ -4,38 +4,35 @@ declare(strict_types=1);
 
 namespace CimaAlfaCSFixers\Config;
 
-use CimaAlfaCSFixers\Fixer\BracesPositionFixer;
-use CimaAlfaCSFixers\Fixer\ClassAndTraitVisibilityRequiredFixer;
-use CimaAlfaCSFixers\Fixer\MethodArgumentSpaceFixer;
-use CimaAlfaCSFixers\Fixer\StatementIndentationFixer;
-use InvalidArgumentException;
-use PhpCsFixer\Config as PhpCsFixerConfig;
 use PhpCsFixer\ConfigInterface;
+use PhpCsFixer\Config as PhpCsFixerConfig;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
-use PhpCsFixerCustomFixers\Fixers;
+use PhpCsFixerCustomFixers\Fixers as PhpCsFixerCustomFixers;
+use CimaAlfaCSFixers\Fixer\Nette\Fixers as NetteFixers;
 
 final class Config extends PhpCsFixerConfig
 {
-    public const array Presets = [
-        'default' => 'Based on the Nette Coding standard',
-        'empty' => 'No rules defined by default',
-    ];
-
+    private string $preset;
     private array $fixerRules;
 
-    public function __construct(?string $name = null)
+    public function __construct(?string $preset = null)
     {
-        $name ??= self::getPresets()->default;
+        $preset ??= Presets::Default->getName();
 
-        if (!self::isValidPreset($name)) {
-            throw new InvalidArgumentException("Invalid preset provided.");
+        if (!Presets::isValid($preset)) {
+            $presetDescriptions = Presets::getDescriptions(true);
+            
+            throw new Exception("Provide a valid preset, '\e[1;31m$preset\e[0m' provided.\n\n\e[1;33mAvailable presets:\e[0m\n$presetDescriptions");
         }
 
-        parent::__construct($name);
+        parent::__construct($preset);
+
+        $this->preset = $preset;
+        $this->fixerRules = $this->getFixerRules();
         
-        match ($name) {
-            'empty' => $this->setRulesEmpty(),
-            default => $this->setRulesDefault(),
+        match ($preset) {
+            'cima-alfa' => $this->setRulesCimaAlfa(),
+            default => null,
         };
         
         $this->setParallelConfig(ParallelConfigFactory::detect());
@@ -51,49 +48,27 @@ final class Config extends PhpCsFixerConfig
         return parent::setRules(array_merge($this->fixerRules, $rules));
     }
 
-    private function setRulesEmpty(): void
+    private function setRulesCimaAlfa(): void
     {
-        $this->fixerRules = [];
+        $this->registerCustomFixers(new NetteFixers);
+        $this->registerCustomFixers(new PhpCsFixerCustomFixers);
     }
 
-    private function setRulesDefault(): void
+    private function getFixerRules(): array
     {
-        $this->fixerRules = require_once __DIR__ . '/../cs/presets/default.php';
+        $presetFile = __DIR__ . "/../../cs/presets/$this->preset.php";
+        $fixerRules = [];
 
-        $this->registerCustomFixers([
-            new BracesPositionFixer,
-            new ClassAndTraitVisibilityRequiredFixer,
-            new MethodArgumentSpaceFixer,
-            new StatementIndentationFixer(),
-        ]);
-
-        $this->registerCustomFixers(new Fixers);
-    }
-
-    public static function getPresets(): object
-    {
-        $presets = [];
+        if (is_file($presetFile)) {
+            $fixerRules = require_once $presetFile;
+        }
         
-        foreach (array_keys(self::Presets) as $preset) {
-            $presets[$preset] = $preset;
+        if (!is_array($fixerRules)) {
+            $returnType = get_debug_type($fixerRules);
+
+            throw new Exception("The '\e[1;4;35m$this->preset\e[0m' preset file must return an '\e[1;3;32marray\e[0m', '\e[1;3;31m$returnType\e[0m' returned.");
         }
 
-        return (object) $presets;
-    }
-
-    public static function getPresetDescriptions(): array
-    {
-        $presets = [];
-
-        foreach (self::Presets as $preset => $description) {
-            $presets[] = "$preset: $description";
-        }
-
-        return $presets;
-    }
-
-    public static function isValidPreset(string $preset): bool
-    {
-        return array_key_exists($preset, self::Presets);
+        return $fixerRules;
     }
 }

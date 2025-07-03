@@ -8,39 +8,23 @@ final class Helpers
 {
     public static function info(string $message): void
     {
-        fwrite(STDOUT, "Info: $message\n");
+        fwrite(STDOUT, "\e[1;36mINFO:\e[0m $message\n");
     }
 
     public static function success(string $message): void
     {
-        fwrite(STDOUT, "Success: $message\n");
+        fwrite(STDOUT, "\e[1;32mSUCCESS:\e[0m $message\n");
     }
 
     public static function warning(string $message): void
     {
-        fwrite(STDOUT, "Warning: $message\n");
+        fwrite(STDOUT, "\e[1;33mWARNING:\e[0m $message\n");
     }
 
-    public static function error(string $message, int $code = 1): void
+    public static function error(string $message, int $code = 1): never
     {
-        fwrite(STDERR, "Error: $message\n");
+        fwrite(STDERR, "\n\e[1;31mERROR:\e[0m $message\n\n");
 
         exit($code);
-    }
-
-    public static function d(...$data): void
-    {
-        fwrite(STDOUT, "Dump:\n");
-        
-        foreach ($data as $dump) {
-            fwrite(STDOUT, var_export($dump, true) . "\n");
-        }
-    }
-
-    public static function dd(...$data): void
-    {
-        self::d(...$data);
-
-        exit(0);
     }
 }
