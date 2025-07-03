@@ -5,6 +5,8 @@ declare(strict_types=1);
 
 use CimaAlfaCSFixers\Helpers;
 
+$_ENV['FORCE_COLOR'] = true;
+
 if (
 	!(is_file($file = ($vendorDir = __DIR__ . '/../vendor') . '/autoload.php') && include $file) &&
 	!(is_file($file = ($vendorDir = __DIR__ . '/../../..') . '/autoload.php') && include $file)
@@ -21,29 +23,24 @@ while (!is_file("$rootDir/composer.json") && substr_count($rootDir, DIRECTORY_SE
 if (!is_file("$rootDir/composer.json")) {
 	$rootDir = getcwd();
 
-	Helpers::warning("Could not find composer.json, using current directory '$rootDir' as project root.");
+	Helpers::warning("Could not find \e[1;4;35mcomposer.json\e[0m, using current directory '\e[1;4;35m$rootDir\e[0m' as project root.");
 }
 
-
-
 $fixerBin = $vendorDir . '/friendsofphp/php-cs-fixer/php-cs-fixer';
-$configExec = __DIR__ . '/../src/cs/config.php';
+$configExec = realpath(__DIR__ . '/../cs/config.php');
 $cmd = 'CIMA_ALFA_PHP_CODING_STANDARD_ROOT=' . escapeshellarg($rootDir) . ' '
+    . 'FORCE_COLOR=true'
     . PHP_BINARY . ' ' . escapeshellarg($fixerBin)
     . ' check -v'
     . ' --config=' . escapeshellarg($configExec);
-
-ob_start();
 
 @passthru(
     $cmd,
     $exitCode,
 );
 
-$output = ob_get_clean();
-
-// if ($exitCode !== 0) {
-//     Helpers::error("Execution failed. Exit code: $exitCode");
-// }
-echo $exitCode;
-echo($output);
+// // if ($exitCode !== 0) {
+// //     Helpers::error("Execution failed. Exit code: $exitCode");
+// // }
+// // echo $exitCode;
+// echo($output);
