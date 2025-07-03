@@ -15,8 +15,9 @@ declare(strict_types=1);
 // PhpCsFixer\Fixer\Whitespace
 // Nette\Fixer\Whitespace
 
-namespace CimaAlfaCSFixers\Fixer;
+namespace CimaAlfaCSFixers\Fixer\Nette;
 
+use CimaAlfaCSFixers\Fixer\BaseFixer;
 use LogicException;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\ConfigurableFixerTrait;

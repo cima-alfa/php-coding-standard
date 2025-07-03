@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 // Nette\Fixer\ClassNotation
 
-namespace CimaAlfaCSFixers\Fixer;
+namespace CimaAlfaCSFixers\Fixer\Nette;
 
+use CimaAlfaCSFixers\Fixer\BaseFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;

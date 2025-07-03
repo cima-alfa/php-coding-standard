@@ -15,8 +15,9 @@ declare(strict_types=1);
 // PhpCsFixer\Fixer\FunctionNotation
 // Nette\Fixer\FunctionNotation
 
-namespace CimaAlfaCSFixers\Fixer;
+namespace CimaAlfaCSFixers\Fixer\Nette;
 
+use CimaAlfaCSFixers\Fixer\BaseFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
