@@ -11,7 +11,7 @@ enum Presets: string
     case Default = 'Default configuration with an empty ruleset';
     case CimaAlfa = 'A mix of the Nette and Laravel Pint coding standards, with some additional rules';
     case Nette = 'Nette Coding Standard';
-    case Laravel = 'Laravel Pint Coding Standard';
+    case Laravel = 'Laravel Pint Coding Standard (Laravel preset)';
 
     public function getName(): string
     {
