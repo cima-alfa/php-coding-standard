@@ -9,6 +9,7 @@ services:
                 - GID=${GID:-1000}
         volumes:
             - ./.docker/php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+            - ./.docker/php-fpm/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
             - ./bin/.docker/mount:/var/www/html/docker-compose.yml:ro
             - ./bin/.docker/mount:/var/www/html/bin/app:ro
             - ./bin/.docker/mount.d:/var/www/html/.docker:ro
