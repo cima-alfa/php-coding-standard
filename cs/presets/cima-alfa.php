@@ -7,7 +7,6 @@ use CimaAlfaCSFixers\Fixer\Nette\ClassAndTraitVisibilityRequiredFixer;
 use CimaAlfaCSFixers\Fixer\Nette\MethodArgumentSpaceFixer;
 use CimaAlfaCSFixers\Fixer\Nette\StatementIndentationFixer;
 use PhpCsFixerCustomFixers\Fixer\CommentedOutFunctionFixer;
-use PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 
 return [
@@ -78,6 +77,7 @@ return [
     'mb_str_functions' => true,
     'method_argument_space' => false,
     'modernize_types_casting' => true,
+    'multiline_promoted_properties' => true,
     'native_function_casing' => true,
     'new_with_parentheses' => false,
     'no_alias_functions' => true,
@@ -188,7 +188,6 @@ return [
     MethodArgumentSpaceFixer::name() => [
         'on_multiline' => 'ensure_fully_multiline',
     ],
-    MultilinePromotedPropertiesFixer::name() => true,
     NoLeadingSlashInGlobalNamespaceFixer::name() => true,
     StatementIndentationFixer::name() => [
         'stick_comment_to_next_continuous_control_statement' => true,
