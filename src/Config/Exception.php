@@ -19,7 +19,7 @@ class Exception extends BaseException
         }
 
         if (!$this->overrideMessage) {
-            parent::__construct("\e[1;35mConfig:\e[0m $message", $code, $previous);
+            parent::__construct("\e[element]Config:\e[reset] $message", $code, $previous);
 
             return;
         }

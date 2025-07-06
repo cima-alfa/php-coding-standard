@@ -33,7 +33,7 @@ enum Presets: string
         }
 
         return implode("\n", array_map(
-            fn(self $preset): string => "\e[1;32m{$preset->getName()}:\e[0;3m {$preset->getDescription()}\e[0m",
+            fn(self $preset): string => "\e[b;green]{$preset->getName()}:\e[reset] {$preset->getDescription()}\e[reset]",
             self::cases()
         ));
     }

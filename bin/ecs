@@ -4,14 +4,16 @@
 declare(strict_types=1);
 
 use CimaAlfaCSFixers\Helpers;
-
-$_ENV['FORCE_COLOR'] = true;
+use CimaAlfaCSFixers\Message\Error;
 
 if (
 	!(is_file($file = ($vendorDir = __DIR__ . '/../vendor') . '/autoload.php') && include $file) &&
 	!(is_file($file = ($vendorDir = __DIR__ . '/../../..') . '/autoload.php') && include $file)
 ) {
-	Helpers::error('Install packages using Composer.');
+    require_once __DIR__ . '/../src/Message/Error.php';
+    require_once __DIR__ . '/../src/Helpers.php';
+
+	Helpers::error(Error::InstallPackages);
 }
 
 $rootDir = getcwd();
@@ -23,13 +25,25 @@ while (!is_file("$rootDir/composer.json") && substr_count($rootDir, DIRECTORY_SE
 if (!is_file("$rootDir/composer.json")) {
 	$rootDir = getcwd();
 
-	Helpers::warning("Could not find \e[1;4;35mcomposer.json\e[0m, using current directory '\e[1;4;35m$rootDir\e[0m' as project root.");
+	Helpers::warning("Could not find \e[file]composer.json\e[reset], using current directory '\e[file]$rootDir\e[reset]' as project root.");
 }
 
 $fixerBin = $vendorDir . '/friendsofphp/php-cs-fixer/php-cs-fixer';
-$configExec = realpath(__DIR__ . '/../cs/config.php');
-$cmd = 'CIMA_ALFA_PHP_CODING_STANDARD_ROOT=' . escapeshellarg($rootDir) . ' '
-    . 'FORCE_COLOR=true'
+$configExec = Helpers::normalizePath(__DIR__ . '/../cs/config.php');
+
+if (!is_file($configExec)) {
+    Helpers::error(Error::FixerConfigFileMissing->internal($configExec));
+}
+
+$noColor = Helpers::getNoColor() ? 'NO_COLOR=1' : '';
+$forceColor = Helpers::getForceColor() || Helpers::detectColors() ? 'FORCE_COLOR=1' : '';
+
+// /** @var Config $config */
+// $config = require_once __DIR__ . '/../cs/config.php';
+
+// new CheckCommand(new ToolInfo)->r
+$cmd = 'CIMA_ALFA_PHP_CODING_STANDARD_ROOT=' . escapeshellarg($rootDir)
+    . " $noColor $forceColor PHP_CS_FIXER_ALLOW_XDEBUG=1 "
     . PHP_BINARY . ' ' . escapeshellarg($fixerBin)
     . ' check -v'
     . ' --config=' . escapeshellarg($configExec);

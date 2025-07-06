@@ -9,6 +9,7 @@ use PhpCsFixer\Config as PhpCsFixerConfig;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 use PhpCsFixerCustomFixers\Fixers as PhpCsFixerCustomFixers;
 use CimaAlfaCSFixers\Fixer\Nette\Fixers as NetteFixers;
+use CimaAlfaCSFixers\Message\Error;
 
 final class Config extends PhpCsFixerConfig
 {
@@ -22,7 +23,7 @@ final class Config extends PhpCsFixerConfig
         if (!Presets::isValid($preset)) {
             $presetDescriptions = Presets::getDescriptions(true);
             
-            throw new Exception("Provide a valid preset, '\e[1;31m$preset\e[0m' provided.\n\n\e[1;33mAvailable presets:\e[0m\n$presetDescriptions");
+            throw new Exception(Error::ConfigInvalidPreset->format($preset, $presetDescriptions));
         }
 
         parent::__construct($preset);
@@ -35,6 +36,7 @@ final class Config extends PhpCsFixerConfig
             default => null,
         };
         
+        $this->setUnsupportedPhpVersionAllowed(true);
         $this->setParallelConfig(ParallelConfigFactory::detect());
         $this->setRiskyAllowed(true);
         $this->setUsingCache(false);
@@ -66,7 +68,7 @@ final class Config extends PhpCsFixerConfig
         if (!is_array($fixerRules)) {
             $returnType = get_debug_type($fixerRules);
 
-            throw new Exception("The '\e[1;4;35m$this->preset\e[0m' preset file must return an '\e[1;3;32marray\e[0m', '\e[1;3;31m$returnType\e[0m' returned.");
+            throw new Exception(Error::InvalidPresetFileReturnType->internal($this->preset, $returnType));
         }
 
         return $fixerRules;
