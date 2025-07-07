@@ -2,8 +2,6 @@
 
 // 8.0
 
-declare(strict_types=1);
-
 namespace Nette\CodingStandard\Examples;
 
 use Nette\Application\UI\Presenter;
