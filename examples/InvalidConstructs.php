@@ -16,10 +16,10 @@ $a=(int) $b;;$x=2;
 
 $a = [ 1 , 2 ,3, ];
 $a = [
-		1 ,
+        1 ,
 2 ,
-	3
-	];
+    3
+    ];
 
 
 [TRUE, False, NULL];
@@ -27,12 +27,12 @@ $a = [
 trim ( 'a' ,$b ) ;
 
 trim(
-		1,
+        1,
 2
 );
 
 trim(
-		'hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh',
+        'hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh',
 415645646548746845646545646546
 );
 
@@ -59,38 +59,38 @@ if($a && ($a
 
 
 if ($this->lastAttrValue === '' && $this->context && Helpers::startsWith($this->context, self::CONTEXT_HTML_ATTRIBUTE)) {
-	x();
+    x();
 }
 
 if ($tokens->isNext() && (!$tokens->isNext($tokens::T_CHAR) || $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\'))) {
-	x();
+    x();
 }
 
 if (
-	$tokens->isNext()
-	&& ($tokens->isNext($tokens::T_CHAR)
-		|| $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\'))
+    $tokens->isNext()
+    && ($tokens->isNext($tokens::T_CHAR)
+        || $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\'))
 ) {
-	x();
+    x();
 }
 
 
 $s .= ($item['hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh']
-		? (
-			$a . $b
-		)
-		: ($line
-			? trim($line)
-			: $item
-		)
-	);
+        ? (
+            $a . $b
+        )
+        : ($line
+            ? trim($line)
+            : $item
+        )
+    );
 
 $s .= fnc($item['hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh']
-		? (
-			$a . $b
-		)
-		: ($line
-			? trim($line)
-			: $item
-		)
-	);
+        ? (
+            $a . $b
+        )
+        : ($line
+            ? trim($line)
+            : $item
+        )
+    );

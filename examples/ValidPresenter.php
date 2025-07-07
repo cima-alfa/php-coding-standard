@@ -1,4 +1,5 @@
 <?php
+
 // 8.0
 
 declare(strict_types=1);
@@ -11,6 +12,6 @@ use Nette\DI\Attributes\Inject;
 
 class ValidPresenter extends Presenter
 {
-	#[Inject]
-	public Explorer $database;
+    #[Inject]
+    public Explorer $database;
 }

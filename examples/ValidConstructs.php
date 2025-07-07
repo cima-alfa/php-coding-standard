@@ -5,13 +5,13 @@ declare(strict_types=1);
 
 function test(?array $a, int $b)
 {
-	return 1;
+    return 1;
 }
 
 
 function &test2(): int
 {
-	return 1;
+    return 1;
 }
 
 
@@ -19,9 +19,9 @@ $a = (int) $b; $x = 2;
 
 $a = [1, 2, 3];
 $a = [
-	1,
-	2,
-	3,
+    1,
+    2,
+    3,
 ];
 
 
@@ -30,86 +30,86 @@ $a = [
 trim('a', $b);
 
 trim(
-	1,
-	2
+    1,
+    2
 );
 
 trim(
-	'hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh',
-	415645646548746845646545646546
+    'hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh',
+    415645646548746845646545646546
 );
 
 test(fn($a): x => $a + 2);
 
 
 func(
-	$a
-		? $b
-		: $c
+    $a
+        ? $b
+        : $c
 );
 
 
 func(
-	$a && ($a
-		? $b
-		: $c) && $c,
-	$d
+    $a && ($a
+        ? $b
+        : $c) && $c,
+    $d
 );
 
 
 if ($a && ($a
-	? $b
-	: $c) && $c
+    ? $b
+    : $c) && $c
 ) {
-	echo 1;
+    echo 1;
 }
 
 
 
 if (
-	$this->lastAttrValue === ''
-	&& $this->context
-	&& Helpers::startsWith($this->context, self::CONTEXT_HTML_ATTRIBUTE)
+    $this->lastAttrValue === ''
+    && $this->context
+    && Helpers::startsWith($this->context, self::CONTEXT_HTML_ATTRIBUTE)
 ) {
-	x();
+    x();
 }
 
 if (
-	$tokens->isNext()
-	&& (
-		!$tokens->isNext($tokens::T_CHAR)
-		|| $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\')
-	)
+    $tokens->isNext()
+    && (
+        !$tokens->isNext($tokens::T_CHAR)
+        || $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\')
+    )
 ) {
-	x();
+    x();
 }
 
 if (
-	$tokens->isNext()
-	&& ($tokens->isNext($tokens::T_CHAR)
-		|| $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\'))
+    $tokens->isNext()
+    && ($tokens->isNext($tokens::T_CHAR)
+        || $tokens->isNext('hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhf', '\\'))
 ) {
-	x();
+    x();
 }
 
 
 $s .= ($item['hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh']
-		? (
-			$a . $b
-		)
-		: ($line
-			? trim($line)
-			: $item
-		)
-	);
+        ? (
+            $a . $b
+        )
+        : ($line
+            ? trim($line)
+            : $item
+        )
+    );
 
 $s .= fnc(
-	$item['hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh']
-		? (
-			$a . $b
-		)
-		: ($line
-			? trim($line)
-			: $item
-		)
+    $item['hfklasdehfgisdgfkljhsnettefsedhgfsdghflskdhfsdlhfgldkshsdfhgsdlkfh']
+        ? (
+            $a . $b
+        )
+        : ($line
+            ? trim($line)
+            : $item
+        )
 );

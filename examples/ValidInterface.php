@@ -6,5 +6,5 @@ namespace Nette\CodingStandard\Examples;
 
 interface ValidInterface
 {
-	function interfaceMethod();
+    function interfaceMethod();
 }
