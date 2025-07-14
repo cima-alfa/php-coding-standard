@@ -1,6 +1,5 @@
 services:
     application:
-        container_name: cima-alfa-php-coding-standard
         build:
             dockerfile: ./.docker/php-fpm/Dockerfile
             target: base
