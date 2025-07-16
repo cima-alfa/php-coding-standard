@@ -4,6 +4,9 @@
 declare(strict_types=1);
 
 use CimaAlfaCSFixers\Helpers;
+use CimaAlfaCSFixers\Input\ArgInput;
+use CimaAlfaCSFixers\Input\InputDefinition;
+use CimaAlfaCSFixers\Input\EnvInput;
 use CimaAlfaCSFixers\Message\Error;
 
 if (
@@ -35,23 +38,89 @@ if (!is_file($configExec)) {
     Helpers::error(Error::FixerConfigFileMissing->internal($configExec));
 }
 
-$noColor = Helpers::getNoColor() ? 'NO_COLOR=1' : '';
-$forceColor = Helpers::getForceColor() || Helpers::detectColors() ? 'FORCE_COLOR=1' : '';
+
+
 
 // /** @var Config $config */
 // $config = require_once __DIR__ . '/../cs/config.php';
 
-// new CheckCommand(new ToolInfo)->r
-$cmd = 'CIMA_ALFA_PHP_CODING_STANDARD_ROOT=' . escapeshellarg($rootDir)
-    . " $noColor $forceColor PHP_CS_FIXER_ALLOW_XDEBUG=1 "
-    . PHP_BINARY . ' ' . escapeshellarg($fixerBin)
-    . ' check -v'
-    . ' --config=' . escapeshellarg($configExec);
+// $definition = new InputDefinition([
+//     new InputArgument('action', InputArgument::OPTIONAL, 'The action to be executed.', 'check', [new Suggestion('check', 'Check for validity of files.'), new Suggestion('fix', 'Fix files.')]),
+//     // new InputArgument('path', InputArgument::IS_ARRAY, 'The path(s) that rules will be run against (each path can be a file or directory).'),
+//     // new InputOption('path-mode', '', InputOption::VALUE_REQUIRED, 'Specify path mode (can be `override` or `intersection`).', ConfigurationResolver::PATH_MODE_OVERRIDE),
+//     // new InputOption('allow-risky', '', InputOption::VALUE_REQUIRED, 'Are risky fixers allowed (can be `yes` or `no`).'),
+//     // new InputOption('config', '', InputOption::VALUE_REQUIRED, 'The path to a config file.'),
+//     // new InputOption('rules', '', InputOption::VALUE_REQUIRED, 'List of rules that should be run against configured paths.'),
+//     // new InputOption('using-cache', '', InputOption::VALUE_REQUIRED, 'Should cache be used (can be `yes` or `no`).'),
+//     // new InputOption('allow-unsupported-php-version', '', InputOption::VALUE_REQUIRED, 'Should the command refuse to run on unsupported PHP version (can be `yes` or `no`).'),
+//     // new InputOption('cache-file', '', InputOption::VALUE_REQUIRED, 'The path to the cache file.'),
+//     // new InputOption('diff', '', InputOption::VALUE_NONE, 'Prints diff for each file.'),
+//     // new InputOption('format', '', InputOption::VALUE_REQUIRED, 'To output results in other formats.'),
+//     // new InputOption('stop-on-violation', '', InputOption::VALUE_NONE, 'Stop execution on first violation.'),
+//     // new InputOption('show-progress', '', InputOption::VALUE_REQUIRED, 'Type of progress indicator (none, dots).'),
+//     // new InputOption('sequential', '', InputOption::VALUE_NONE, 'Enforce sequential analysis.'),
+// ]);
+
+$color = Helpers::getNoColor() ? 'NO_COLOR' : null;
+$color = Helpers::detectColors() ? 'FORCE_COLOR' : $color;
+$configExec = escapeshellarg($configExec);
+
+$args = new InputDefinition(
+    new EnvInput('CIMA_ALFA_PHP_CODING_STANDARD_ROOT', $rootDir),
+    $color !== null ? new EnvInput($color, '1') : null,
+    new EnvInput('PHP_CS_FIXER_ALLOW_XDEBUG', '1'),
+    new ArgInput(PHP_BINARY),
+    new ArgInput($fixerBin),
+);
 
 @passthru(
-    $cmd,
+    "$args check -v --config=$configExec",
     $exitCode,
 );
+
+// $formatArgs = function() use ($args): array {
+    
+// };
+
+// $definition = array_map(
+//     fn(string $arg): InputArgument => new InputArgument($arg, InputArgument::REQUIRED), 
+//     array_keys(array_filter($args))
+// );
+
+// $definition[] = new InputArgument('action', InputArgument::REQUIRED, 'The action to be executed.', suggestedValues: [new Suggestion('check', 'Check for validity of files.'), new Suggestion('fix', 'Fix files.')]);
+
+// $input = new ArgvInput($formatArgs());
+// $output = new StreamOutput(STDOUT);
+
+// $app = new Application();
+// $app->
+// $cmd = new Command('ecs');
+// $cmd->setDefinition($definition);
+// $cmd->setCode(function (InputInterface $i, OutputInterface $o) {
+//     $o->writeln('<info>Hi</>');
+// });
+
+// $app->add($cmd);
+
+// try {
+//     $app->run($input, $output);
+// } catch (RuntimeException $e) {
+//     $output->setFormatter()
+//     $output->writeln("<error> {$e->getMessage()} </>");
+// }
+
+
+// new CheckCommand(new ToolInfo)->r
+// $cmd = 'CIMA_ALFA_PHP_CODING_STANDARD_ROOT=' . escapeshellarg($rootDir)
+//     . " $noColor $forceColor PHP_CS_FIXER_ALLOW_XDEBUG=1 "
+//     . PHP_BINARY . ' ' . escapeshellarg($fixerBin)
+//     . ' check -v'
+//     . ' --config=' . escapeshellarg($configExec);
+
+// @passthru(
+//     $cmd,
+//     $exitCode,
+// );
 
 // // if ($exitCode !== 0) {
 // //     Helpers::error("Execution failed. Exit code: $exitCode");
