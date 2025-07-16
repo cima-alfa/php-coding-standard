@@ -127,8 +127,6 @@ final class Helpers
 
     /** 
      * Copied from symfony console
-     * 
-     * @TODO Use symfony console for IO
      */
     public static function detectColors(): bool
 	{
@@ -207,16 +205,12 @@ final class Helpers
 
         if ($trace !== false) {
             if (self::detectColors()) {
-                
-
                 $trace['file'] = "\e[{$formats['file']}m{$trace['file']}\e[{$formats['reset']}m";
                 $trace['line'] = "\e[{$formats['tip']}m{$trace['line']}\e[{$formats['reset']}m";
             }
 
             $where = ". In '{$trace['file']}' on line {$trace['line']}";
         }
-
-        
 
         if (self::detectColors()) {
             $patterns = array_map(fn(string $pattern): string => "\e[{$formats['yellow']}m$pattern\e[{$formats['reset']}m", $patterns);
@@ -230,7 +224,7 @@ final class Helpers
         restore_error_handler();
 
         if (($code = preg_last_error()) && $result === null) {
-			throw new RegexpException(preg_last_error_msg() . ' (pattern: ' . implode(' or ', $patterns) .  ") $where.", $code);
+			throw new RegexpException(preg_last_error_msg() . ' (pattern: ' . implode(' or ', $patterns) .  ")$where.", $code);
 		}
 
         return $result;
