@@ -1,21 +1,39 @@
 #!/bin/bash
 
-usage()
+usage=$(cat << EOT
+
+Usage:
+
+up|start    [-d] [--build]           Start / Build container.
+down        [-v]                     Remove container.
+stop                                 Stop container.
+restart                              Restart container.
+sh          [--user root] [options]  Access container shell.
+composer|c  [args]                   Use composer.
+
+EOT
+)
+
+getUsage()
 {
-    printf "\nUsage:\n\n"
+    if [ "$NO_COLOR" != "" ] && [ "$FORCE_COLOR" == "" ]; then
+        echo "$usage"
 
-    printf "app up|start [-d] [--build]     Start / Build container(s).\n"
-    printf "app down [-v]                   Remove container(s).\n"
-    printf "app stop                        Stop container(s).\n"
-    printf "app restart                     Restart container(s).\n"
-    printf "app sh [--user root] [options]  Access container shell.\n"
-    printf "app composer|c [args]           Use composer.\n"
+        return
+    fi
 
-    printf "\n"
+    colored="$usage"
+
+    colored=$(echo "$colored" | sed -E -e s/Usage:/`printf "\e[1;33m"`Usage:`printf "\e[0m"`/g)
+    colored=$(echo "$colored" | sed -E -e s/\([^' ']+\)' '\(' '*\\[.+\\]\)?' '\(.+\)/`printf "\e[1;32m"`'\1'`printf "\e[0m"`' '`printf "\e[1;90m"`'\2'`printf "\e[0m"`' \3'/g)
+
+    echo "$colored"
 }
 
 if [ $# -eq 0 ]; then
-    usage
+    getUsage
+
+    printf "\n"
 
     exit 0
 fi
