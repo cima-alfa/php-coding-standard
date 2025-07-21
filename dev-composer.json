@@ -12,9 +12,10 @@
     ],
     "require": {
         "php": "^8.4",
-        "php-cs-fixer/shim": "^3.84",
+        "friendsofphp/php-cs-fixer": "^3.84",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.31",
         "nette/neon": "^3.4.4",
+        "nette/tester": "^2.5",
         "tracy/tracy": "^2.10.10"
     },
     "autoload": {
