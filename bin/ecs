@@ -3,11 +3,22 @@
 
 declare(strict_types=1);
 
-use CimaAlfaCSFixers\Helpers;
-use CimaAlfaCSFixers\Input\ArgInput;
-use CimaAlfaCSFixers\Input\InputDefinition;
-use CimaAlfaCSFixers\Input\EnvInput;
-use CimaAlfaCSFixers\Message\Error;
+use PHPStylish\Helpers;
+use PHPStylish\Input\ArgInput;
+use PHPStylish\Input\Definition\Input;
+use PHPStylish\Input\Definition\Type;
+use PHPStylish\Input\InputDefinition;
+use PHPStylish\Input\EnvInput;
+use PHPStylish\Input\InputException;
+use PHPStylish\Input\OptionInput;
+use PHPStylish\Input\UserInput;
+use PHPStylish\Input\UserInputDefinition;
+use PHPStylish\Message\Error;
+
+// Phar::loadPhar(__DIR__ . '/../vendor/php-cs-fixer/shim/php-cs-fixer.phar', 'cs-fixer.phar');
+
+
+// require_once 'phar://cs-fixer.phar/vendor/autoload.php';
 
 if (
 	!(is_file($file = ($vendorDir = __DIR__ . '/../vendor') . '/autoload.php') && include $file) &&
@@ -31,7 +42,14 @@ if (!is_file("$rootDir/composer.json")) {
 	Helpers::warning("Could not find \e[file]composer.json\e[reset], using current directory '\e[file]$rootDir\e[reset]' as project root.");
 }
 
-$fixerBin = $vendorDir . '/friendsofphp/php-cs-fixer/php-cs-fixer';
+$fixerBin = "$vendorDir/php-cs-fixer/shim/php-cs-fixer";
+
+if (!is_file($fixerBin)) {
+    Helpers::warning("PHP CS Fixer Shim version not found. Defaulting to stardard version.");
+
+    $fixerBin = "$vendorDir/friendsofphp/php-cs-fixer/php-cs-fixer";
+}
+
 $configExec = Helpers::normalizePath(__DIR__ . '/../cs/config.php');
 
 if (!is_file($configExec)) {
@@ -65,18 +83,46 @@ $color = Helpers::getNoColor() ? 'NO_COLOR' : null;
 $color = Helpers::detectColors() ? 'FORCE_COLOR' : $color;
 $configExec = escapeshellarg($configExec);
 
-$args = new InputDefinition(
-    new EnvInput('CIMA_ALFA_PHP_CODING_STANDARD_ROOT', $rootDir),
-    $color !== null ? new EnvInput($color, '1') : null,
-    new EnvInput('PHP_CS_FIXER_ALLOW_XDEBUG', '1'),
-    new ArgInput(PHP_BINARY),
-    new ArgInput($fixerBin),
-);
+try {
+    $input = new InputDefinition(
+        new EnvInput('CIMA_ALFA_PHP_CODING_STANDARD_ROOT', $rootDir),
+        $color !== null ? new EnvInput($color, '1') : null,
+        new EnvInput('PHP_CS_FIXER_ALLOW_XDEBUG', '1'),
+        new ArgInput(PHP_BINARY),
+        new ArgInput($fixerBin),
+        new UserInputDefinition(
+            new UserInput(Input::Arg, Type::Optional->defaultValue('test')),
+            new UserInput(Input::Arg, Type::Optional->defaultValue('test2')),
+        ),
+    );
+} catch (InputException $e) {
+    Helpers::error($e->getMessage(), $e->getCode());
+}
 
+echo "\n\n\n\e[1;33m$input\e[0m\n\n\n";
+// die;
+
+// try {
+//     $userInput = new UserInputDefinition(
+//         new ArgInput('predefined-arg'),
+//         new OptionInput('predefined-option', 'value1')->escape()->escape(),
+//         new ArgInput('predefined-arg2'),
+//         new OptionInput('predefined-option2', 'value2'),
+//         new OptionInput('predefined-option3', 'value3'),
+//         new ArgInput('predefined-arg3'),
+//     )->toArray();
+// } catch (InputException $e) {
+//     Helpers::error($e->getMessage(), $e->getCode());
+// }
+
+ob_start();
 @passthru(
-    "$args check -v --config=$configExec",
+    "$input check -vvv --config=$configExec",
     $exitCode,
 );
+$t = ob_get_clean();
+
+// printf($t);
 
 // $formatArgs = function() use ($args): array {
     
