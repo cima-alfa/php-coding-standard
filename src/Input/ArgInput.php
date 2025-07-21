@@ -1,8 +1,8 @@
 <?php
 
-namespace CimaAlfaCSFixers\Input;
+namespace PHPStylish\Input;
 
-final class ArgInput implements Input
+final class ArgInput extends BaseInput
 {
     public function __construct(
         private readonly string $value,
@@ -16,13 +16,15 @@ final class ArgInput implements Input
 
     public function escape(): self
     {
-        return new self(escapeshellarg($this->value));
+        if ($this->isEscaped()) {
+            return $this;
+        }
+
+        return new self(escapeshellarg($this->getValue()))->setEscaped();
     }
 
     public function __toString(): string
-    {
-        $input = $this->escape();
-        
-        return $input->getValue();
+    {   
+        return $this->escape()->getValue();
     }
 }

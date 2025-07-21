@@ -1,6 +1,6 @@
 <?php
 
-namespace CimaAlfaCSFixers\Input;
+namespace PHPStylish\Input;
 
 use Stringable;
 

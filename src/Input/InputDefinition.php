@@ -1,6 +1,6 @@
 <?php
 
-namespace CimaAlfaCSFixers\Input;
+namespace PHPStylish\Input;
 
 use ReflectionClass;
 use ReflectionProperty;
@@ -13,6 +13,7 @@ final class InputDefinition implements Definition
         private readonly EnvInput $xdebug,
         private readonly ArgInput $phpBinary,
         private readonly ArgInput $csBinary,
+        private readonly UserInputDefinition $userInput,
     )
     {}
 
@@ -30,8 +31,8 @@ final class InputDefinition implements Definition
 
     public function __toString(): string
     {
-        $args = array_filter(
-            array_map(function(?Input $value): ?string {
+        $input = array_filter(
+            array_map(function(Input|Definition|null $value): ?string {
                 if ($value === null) {
                     return null;
                 }
@@ -40,10 +41,6 @@ final class InputDefinition implements Definition
             }, $this->toArray())        
         );
 
-        $argv = $_SERVER['argv'];
-        
-        array_shift($argv);
-
-        return implode(' ', [...$args, ...$argv]);
+        return implode(' ', $input);
     }
 }
