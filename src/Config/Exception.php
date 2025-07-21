@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Config;
+namespace PHPStylish\Config;
 
 use Exception as BaseException;
 use Throwable;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Action;
+namespace PHPStylish\Action;
 
 final class Fix
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Fixer\Nette;
+namespace PHPStylish\Fixer\Nette;
 
 use Generator;
 use DirectoryIterator;

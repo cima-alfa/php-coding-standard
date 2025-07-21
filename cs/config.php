@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use CimaAlfaCSFixers\Config\Config;
-use CimaAlfaCSFixers\Config\Neon;
-use CimaAlfaCSFixers\Config\Exception;
-use CimaAlfaCSFixers\Config\ExceptionDump;
-use CimaAlfaCSFixers\Helpers;
-use CimaAlfaCSFixers\Message\Error;
+use PHPStylish\Config\Config;
+use PHPStylish\Config\Neon;
+use PHPStylish\Config\Exception;
+use PHPStylish\Config\ExceptionDump;
+use PHPStylish\Helpers;
+use PHPStylish\Message\Error;
 use PhpCsFixer\Finder;
 
 require __DIR__ . '/../vendor/autoload.php';

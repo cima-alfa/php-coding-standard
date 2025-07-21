@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers;
+namespace PHPStylish;
 
 use BackedEnum;
-use CimaAlfaCSFixers\Message\Error;
+use PHPStylish\Message\Error;
 
 final class Helpers
 {
@@ -48,7 +48,7 @@ final class Helpers
             $message = $message->value;
         }
         
-        fwrite(STDOUT, self::formatMessage("\e[info]INFO:\e[reset] $message") . "\n");
+        fwrite(STDOUT, "\n" . self::formatMessage("\e[info]INFO:\e[reset] $message") . "\n");
     }
 
     public static function success(BackedEnum|string $message): void
@@ -57,7 +57,7 @@ final class Helpers
             $message = $message->value;
         }
         
-        fwrite(STDOUT, self::formatMessage("\e[success]SUCCESS:\e[reset] $message") . "\n");
+        fwrite(STDOUT, "\n" . self::formatMessage("\e[success]SUCCESS:\e[reset] $message") . "\n");
     }
 
     public static function warning(BackedEnum|string $message): void
@@ -66,7 +66,7 @@ final class Helpers
             $message = $message->value;
         }
         
-        fwrite(STDOUT, self::formatMessage("\e[warning]WARNING:\e[reset] $message") . "\n");
+        fwrite(STDOUT, "\n" . self::formatMessage("\e[warning]WARNING:\e[reset] $message") . "\n");
     }
 
     public static function error(BackedEnum|string $message, int $code = 1): never
@@ -193,7 +193,7 @@ final class Helpers
         return ($normalized = @realpath($path)) === false ? $path : $normalized;
     }
 
-    public static function pcre(PCRE $function, array $params): string
+    public static function pcre(PCRE $function, array $params): mixed
     {
         $formats = self::$consoleFormats;
         $patterns = (array) $params[0];
@@ -228,5 +228,13 @@ final class Helpers
 		}
 
         return $result;
+    }
+
+    public static function toPascalCase(string $string): string
+    {
+        $string = self::pcre(PCRE::Replace, ['#[-_](?=[a-z])#', ' ', $string]);
+        $string = mb_lcfirst(ucwords($string));
+		
+        return str_replace(' ', '', $string);
     }
 }

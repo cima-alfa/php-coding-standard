@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Fixer;
+namespace PHPStylish\Fixer;
 
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Preg;

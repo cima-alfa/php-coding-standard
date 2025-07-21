@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use CimaAlfaCSFixers\Fixer\Nette\BracesPositionFixer;
-use CimaAlfaCSFixers\Fixer\Nette\ClassAndTraitVisibilityRequiredFixer;
-use CimaAlfaCSFixers\Fixer\Nette\MethodArgumentSpaceFixer;
-use CimaAlfaCSFixers\Fixer\Nette\StatementIndentationFixer;
+use PHPStylish\Fixer\Nette\BracesPositionFixer;
+use PHPStylish\Fixer\Nette\ClassAndTraitVisibilityRequiredFixer;
+use PHPStylish\Fixer\Nette\MethodArgumentSpaceFixer;
+use PHPStylish\Fixer\Nette\StatementIndentationFixer;
 use PhpCsFixerCustomFixers\Fixer\CommentedOutFunctionFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 

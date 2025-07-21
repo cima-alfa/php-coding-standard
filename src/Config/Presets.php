@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Config;
+namespace PHPStylish\Config;
 
 enum Presets: string
 {
     private const string Separator = '-';
 
     case Default = 'Default configuration with an empty ruleset';
-    case CimaAlfa = 'A mix of the Nette and Laravel Pint coding standards, with some additional rules';
+    case Stylish = 'A mix of the Nette and Laravel Pint coding standards, with some additional rules';
     case Nette = 'Nette Coding Standard';
     case Laravel = 'Laravel Pint Coding Standard (Laravel preset)';
 

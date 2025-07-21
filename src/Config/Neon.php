@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Config;
+namespace PHPStylish\Config;
 
-use CimaAlfaCSFixers\Message\Error;
+use PHPStylish\Message\Error;
 use Nette\Neon\Neon as NetteNeon;
 use Nette\Neon\Exception as NetteNeonException;
 use ReflectionClass, ReflectionProperty, ReflectionType;

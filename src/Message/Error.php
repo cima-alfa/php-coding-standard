@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Message;
+namespace PHPStylish\Message;
 
-use CimaAlfaCSFixers\Helpers;
+use PHPStylish\Helpers;
 use Exception;
 
 enum Error: string
@@ -31,11 +31,15 @@ enum Error: string
 
     case ConfigRequiredFieldsMissing = "The following required fields are missing: %s.";
 
+    case MalformedInputOptions = "Malformed options: %s.";
+
+    case NonOptionalUserInputDefaultValue = "Only optional input can have a default value. In '\e[file]%s\e[reset]' on line \e[tip]%d\e[reset].";
+
     public function format(string|null ...$params): string
     {
         try {
             return sprintf($this->value, ...$params);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return $this->value;
         }
     }

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace CimaAlfaCSFixers\Config;
+namespace PHPStylish\Config;
 
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Config as PhpCsFixerConfig;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 use PhpCsFixerCustomFixers\Fixers as PhpCsFixerCustomFixers;
-use CimaAlfaCSFixers\Fixer\Nette\Fixers as NetteFixers;
-use CimaAlfaCSFixers\Message\Error;
+use PHPStylish\Fixer\Nette\Fixers as NetteFixers;
+use PHPStylish\Message\Error;
 
 final class Config extends PhpCsFixerConfig
 {
@@ -19,7 +19,7 @@ final class Config extends PhpCsFixerConfig
     public function __construct(?string $preset = null)
     {
         $preset ??= Presets::Default->getName();
-
+        
         if (!Presets::isValid($preset)) {
             $presetDescriptions = Presets::getDescriptions(true);
             
@@ -32,7 +32,7 @@ final class Config extends PhpCsFixerConfig
         $this->fixerRules = $this->getFixerRules();
         
         match ($preset) {
-            'cima-alfa' => $this->setRulesCimaAlfa(),
+            'stylish' => $this->setRulesStylish(),
             default => null,
         };
         
@@ -50,7 +50,7 @@ final class Config extends PhpCsFixerConfig
         return parent::setRules(array_merge($this->fixerRules, $rules));
     }
 
-    private function setRulesCimaAlfa(): void
+    private function setRulesStylish(): void
     {
         $this->registerCustomFixers(new NetteFixers);
         $this->registerCustomFixers(new PhpCsFixerCustomFixers);

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use CimaAlfaCSFixers\Config;
 use PhpCsFixer\Finder;
+use PHPStylish\Config\Config;
 
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $finder = Finder::create()->in(__DIR__ . '/examples');
 
